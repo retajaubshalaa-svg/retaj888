@@ -1,0 +1,59 @@
+
+package javaapplication10;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+public class JavaApplication10 {
+
+    
+    public static void main(String[] args) {
+       List<Employee> employees = new ArrayList<>();
+
+        employees.add(new FullTimeEmployee("E02", "Sara",LocalDate.of(2022, 5, 15), 35, 160));
+        employees.add(new FullTimeEmployee("E03", "Omar",LocalDate.of(2020, 8, 1), 900,500));
+        employees.add(new FullTimeEmployee("E04", "Mona",LocalDate.of(2023, 1, 20), 40, 180));
+
+        System.out.println("Sort by salary (highest first):");
+        Collections.sort(employees);
+        for (Employee employee : employees) {
+            System.out.println(employee);
+        }
+
+        System.out.println("\nSort by joining date (oldest first):");
+        Comparator<Employee> dateComparator =
+                (e1, e2) -> e1.getJoinDate().compareTo(e2.getJoinDate());
+        Collections.sort(employees, dateComparator);
+        for (Employee employee : employees) {
+            System.out.println(employee.getName() + " - " + employee.getJoinDate());
+        }
+
+        Map<String, Double> scores = new HashMap<>();
+        scores.put("E01", 4.5);
+        scores.put("E02", 3.8);
+        scores.put("E03", 5.0);
+        scores.put("E04", 4.2);
+
+        double totalTax = 0;
+        double totalBonus = 0;
+
+        System.out.println("\nTaxes and bonuses:");
+        for (Employee employee : employees) {
+            double tax = employee.calculateTax();
+            double bonus = employee.calculateBonus(scores.get(employee.getId()));
+            totalTax += tax;
+            totalBonus += bonus;
+            System.out.printf("%s - Tax: %.2f - Bonus: %.2f%n",
+                    employee.getName(), tax, bonus);
+        }
+
+        System.out.printf("%nTotal taxes: %.2f%n", totalTax);
+        System.out.printf("Total bonuses: %.2f%n", totalBonus);
+    }
+} 
+   
+    
+
